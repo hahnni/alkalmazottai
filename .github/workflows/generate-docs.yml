@@ -32,17 +32,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install openai==0.28.0
 
-      # Step 4: Run the documentation generation script
+      # Step 4: Create API KEY
+      - name: Create API key file
+        run: echo "${{ secrets.OPENAI_API_KEY }}" > scripts/api_key.txt
+
+      # Step 5: Run the documentation generation script
       - name: Generate documentation
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python scripts/generate_docs_script.py
 
-       # Step 5: Ensure the files exists
+       # Step 6: Ensure the files exists
       - name: List files in the working directory
         run: ls -R
 
-      # Step 6: Commit and push changes
+      # Step 7: Commit and push changes
       - name: Commit and push documentation
         run: |
           git config --global user.name "github-actions[bot]"
