@@ -31,7 +31,7 @@ jobs:
 
       # Step 4: Run the documentation generation script
       - name: Generate documentation
-        run: python your_script_name.py
+        run: python generate_docs_script.py
 
       # Step 5: Commit and push changes
       - name: Commit and push documentation
