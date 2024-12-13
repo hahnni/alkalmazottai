@@ -1,0 +1,63 @@
+import openai
+import ast
+
+# Set your OpenAI API key
+openai.api_key = "your_openai_api_key"
+
+def extract_code_structure(code):
+    """
+    Extracts function definitions and docstrings from Python code using ast.
+    """
+    tree = ast.parse(code)
+    functions = []
+
+    for node in ast.walk(tree):
+        if isinstance(node, ast.FunctionDef):
+            function_name = node.name
+            docstring = ast.get_docstring(node) or "No docstring provided"
+            functions.append({"name": function_name, "docstring": docstring})
+
+    return functions
+
+def generate_documentation(code_snippet):
+    """
+    Uses OpenAI's API to generate documentation from code snippets.
+    """
+    prompt = f"The following is a code snippet. Generate detailed documentation:\n\n{code_snippet}"
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-003",
+            prompt=prompt,
+            max_tokens=300,
+            temperature=0.5
+        )
+        return response.choices[0].text.strip()
+    except Exception as e:
+        return f"Error generating documentation: {str(e)}"
+
+def main():
+    # Example: Input Python code
+    code = """
+def calculate_area(length, width):
+    \"\"\"Compute the area of a rectangle.\"\"\"
+    return length * width
+
+def perimeter(length, width):
+    \"\"\"Calculate the perimeter of a rectangle.\"\"\"
+    return 2 * (length + width)
+"""
+
+    # Step 1: Extract code structure
+    functions = extract_code_structure(code)
+
+    # Step 2: Generate documentation for each function
+    for func in functions:
+        print(f"### Function: {func['name']}\n")
+        print(f"Original Docstring: {func['docstring']}\n")
+        print("Generated Documentation:")
+        doc = generate_documentation(code_snippet=f"def {func['name']}:\n    {func['docstring']}")
+        print(doc)
+        print("\n" + "-"*40 + "\n")
+
+if __name__ == "__main__":
+    main()
