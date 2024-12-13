@@ -34,6 +34,8 @@ jobs:
 
       # Step 4: Run the documentation generation script
       - name: Generate documentation
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python scripts/generate_docs_script.py
 
        # Step 5: Ensure the files exists
