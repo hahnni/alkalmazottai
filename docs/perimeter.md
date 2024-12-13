@@ -1,12 +1,3 @@
 ### Function: perimeter
 
-Error generating documentation: 
-
-You tried to access openai.Completion, but this is no longer supported in openai>=1.0.0 - see the README at https://github.com/openai/openai-python for the API.
-
-You can run `openai migrate` to automatically upgrade your codebase to use the 1.0.0 interface. 
-
-Alternatively, you can pin your installation to the old version, e.g. `pip install openai==0.28`
-
-A detailed migration guide is available here: https://github.com/openai/openai-python/discussions/742
-
+Error generating documentation: No API key provided. You can set your API key in code using 'openai.api_key = <API-KEY>', or you can set the environment variable OPENAI_API_KEY=<API-KEY>). If your API key is stored in a file, you can point the openai module at it with 'openai.api_key_path = <PATH>'. You can generate API keys in the OpenAI web interface. See https://platform.openai.com/account/api-keys for details.
