@@ -33,7 +33,11 @@ jobs:
       - name: Generate documentation
         run: python scripts/generate_docs_script.py
 
-      # Step 5: Commit and push changes
+       # Step 5: Ensure the files exists
+      - name: List files in the working directory
+        run: ls -R
+
+      # Step 6: Commit and push changes
       - name: Commit and push documentation
         run: |
           git config --global user.name "github-actions[bot]"
