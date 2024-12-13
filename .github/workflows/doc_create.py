@@ -1,8 +1,9 @@
+import os
 import openai
 import ast
 
 # Set your OpenAI API key
-openai.api_key = "your_openai_api_key"
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def extract_code_structure(code):
     """
@@ -35,15 +36,26 @@ def generate_documentation(code_snippet):
     except Exception as e:
         return f"Error generating documentation: {str(e)}"
 
+def save_documentation(func_name, documentation):
+    """
+    Save the generated documentation to a file in the 'docs/' directory.
+    """
+    output_dir = "docs/"
+    os.makedirs(output_dir, exist_ok=True)
+    output_file = os.path.join(output_dir, f"{func_name}.md")
+
+    with open(output_file, "w") as file:
+        file.write(f"### Function: {func_name}\n\n{documentation}\n")
+
 def main():
     # Example: Input Python code
     code = """
 def calculate_area(length, width):
-    \"\"\"Compute the area of a rectangle.\"\"\"
+    """Compute the area of a rectangle."""
     return length * width
 
 def perimeter(length, width):
-    \"\"\"Calculate the perimeter of a rectangle.\"\"\"
+    """Calculate the perimeter of a rectangle."""
     return 2 * (length + width)
 """
 
@@ -52,12 +64,10 @@ def perimeter(length, width):
 
     # Step 2: Generate documentation for each function
     for func in functions:
-        print(f"### Function: {func['name']}\n")
-        print(f"Original Docstring: {func['docstring']}\n")
-        print("Generated Documentation:")
-        doc = generate_documentation(code_snippet=f"def {func['name']}:\n    {func['docstring']}")
-        print(doc)
-        print("\n" + "-"*40 + "\n")
+        print(f"Generating documentation for function: {func['name']}")
+        doc = generate_documentation(f"def {func['name']}:\n    {func['docstring']}")
+        save_documentation(func['name'], doc)
+        print(f"Documentation for {func['name']} saved to docs/{func['name']}.md")
 
 if __name__ == "__main__":
     main()
