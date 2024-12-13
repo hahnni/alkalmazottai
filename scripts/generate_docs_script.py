@@ -26,11 +26,12 @@ def generate_documentation(code_snippet):
     """
     prompt = f"The following is a code snippet. Generate detailed documentation:\n\n{code_snippet}"
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            max_tokens=300,
-            temperature=0.5
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant for generating code documentation."},
+                {"role": "user", "content": prompt},
+            ]
         )
         return response.choices[0].text.strip()
     except Exception as e:
