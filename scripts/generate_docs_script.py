@@ -2,12 +2,11 @@ import os
 import openai
 import ast
 
-# Set your OpenAI API key
+##Setting API KEY
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
-with open("api_key.txt", "r") as file:
-    openai.api_key = file.read().strip()
-
+if not openai.api_key:
+    raise ValueError("OpenAI API key not found. Set the 'OPENAI_API_KEY' environment variable.")
+    
 def extract_code_structure(code):
     """
     Extracts function definitions and docstrings from Python code using ast.
