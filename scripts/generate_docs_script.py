@@ -51,11 +51,13 @@ def main():
     # Example: Input Python code
     code = """
 def calculate_area(length, width):
-    """Compute the area of a rectangle."""
+    \"\"\"
+    Compute the area of a rectangle.
+    \"\"\"
     return length * width
 
 def perimeter(length, width):
-    """Calculate the perimeter of a rectangle."""
+    \"\"\"Calculate the perimeter of a rectangle.\"\"\"
     return 2 * (length + width)
 """
 
