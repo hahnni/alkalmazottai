@@ -32,9 +32,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install openai==0.28.0
 
-      # Step 4: Create API KEY
-      - name: Create API key file
-        run: echo "${{ secrets.OPENAI_API_KEY }}" > scripts/api_key.txt
+      - name: Use OpenAI API key
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "Using OpenAI API key"
+          curl -H "Authorization: Bearer $OPENAI_API_KEY" https://api.openai.com/v1/models
 
       # Step 5: Run the documentation generation script
       - name: Generate documentation
